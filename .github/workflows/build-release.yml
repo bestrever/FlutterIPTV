@@ -33,13 +33,20 @@ jobs:
           channel: 'stable'
           cache: true
       
-      - name: Get dependencies
-        run: flutter pub get
-      
-      - name: Enable Windows Desktop Support
+      - name: Clean and Recreate Windows Project
         shell: bash
         run: |
+          # 1. 執行 Flutter 內建清理
+          flutter clean
+          
+          # 2. 強制刪除可能被意外提交到 Git 的舊快取與設定檔
+          rm -rf build
           rm -rf windows
+          
+          # 3. 重新獲取依賴
+          flutter pub get
+          
+          # 4. 重新生成適配最新 VS 2022 的 Windows 專案
           flutter create . --platforms=windows --project-name flutter_iptv
       
       - name: Build Windows Release
