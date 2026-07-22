@@ -20,7 +20,7 @@ jobs:
   # ============================================
   build-windows:
     name: Build Windows
-    runs-on: windows-2019
+    runs-on: windows-latest
     
     steps:
       - name: Checkout repository
@@ -37,7 +37,10 @@ jobs:
         run: flutter pub get
       
       - name: Enable Windows Desktop Support
-        run: flutter create . --platforms=windows --project-name flutter_iptv
+        shell: bash
+        run: |
+          rm -rf windows
+          flutter create . --platforms=windows --project-name flutter_iptv
       
       - name: Build Windows Release
         run: flutter build windows --release
